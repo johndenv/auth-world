@@ -1,42 +1,195 @@
 {% load static %}
+{% static "auth_service/images/espada.jpg" as espada_url %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="% static 'auth_service/css/register.css' %">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Register user</title>
+    <title>Criar conta</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'auth_service/css/register.css' %}"
+    >
 </head>
 
 <body>
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ form.email.label_tag }} {{ form.email }}
-        </div>
-        
-        <div class="form-group" style="display: flex; gap: 10px;">
-            <div>
-                {{ form.country_code.label_tag }} <br>
-                {{ form.country_code }}
-            </div>
-            <div style="flex-grow: 1;">
-                {{ form.phone_with_ddd_tag }} <br>
-                {{ form.phone_with_ddd }}
-            </div>
-        </div>
 
-        <div class="form-group">
-            {{ form.password.label_tag }} {{ form.password }}
-        </div>
-        <div class="form-group">
-            {{ form.password_confirm.label_tag }} {{ form.password_confirm }}
-        </div>
+    <main class="register-page">
 
-        <button type="submit">Cadastrar</button>
-    </form>
+        <!--
+            Fundo ampliado e desfocado.
+            Serve para preencher a tela inteira.
+        -->
+        <div
+            class="background-blur"
+            style="background-image: url('{{ espada_url }}');"
+        ></div>
+
+
+        <!--
+            Imagem principal.
+            Mantém a espada visível sem zoom exagerado.
+        -->
+        <div
+            class="background-main"
+            style="background-image: url('{{ espada_url }}');"
+        ></div>
+
+
+        <!-- FORMULÁRIO -->
+        <section class="register-card">
+
+            <header class="register-header">
+
+                <span class="register-subtitle">
+                    BEM-VINDO
+                </span>
+
+                <h1>Criar conta</h1>
+
+                <p>
+                    Preencha seus dados para começar.
+                </p>
+
+            </header>
+
+
+            <form method="post" class="register-form">
+
+                {% csrf_token %}
+
+
+                <!-- ERROS GERAIS -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    {{ form.email.label_tag }}
+
+                    {{ form.email }}
+
+                    {% if form.email.errors %}
+
+                        <div class="field-errors">
+                            {{ form.email.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- TELEFONE -->
+
+                <div class="phone-group">
+
+                    <div class="country-code">
+
+                        {{ form.country_code.label_tag }}
+
+                        {{ form.country_code }}
+
+                        {% if form.country_code.errors %}
+
+                            <div class="field-errors">
+                                {{ form.country_code.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="phone-number">
+
+                        {{ form.phone_with_ddd.label_tag }}
+
+                        {{ form.phone_with_ddd }}
+
+                        {% if form.phone_with_ddd.errors %}
+
+                            <div class="field-errors">
+                                {{ form.phone_with_ddd.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- SENHA -->
+
+                <div class="form-group">
+
+                    {{ form.password.label_tag }}
+
+                    {{ form.password }}
+
+                    {% if form.password.errors %}
+
+                        <div class="field-errors">
+                            {{ form.password.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CONFIRMAR SENHA -->
+
+                <div class="form-group">
+
+                    {{ form.password_confirm.label_tag }}
+
+                    {{ form.password_confirm }}
+
+                    {% if form.password_confirm.errors %}
+
+                        <div class="field-errors">
+                            {{ form.password_confirm.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- BOTÃO -->
+
+                <button
+                    type="submit"
+                    class="register-button"
+                >
+                    Criar conta
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
 </body>
 
 </html>

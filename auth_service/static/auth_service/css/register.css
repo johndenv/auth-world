@@ -1,0 +1,675 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   VARIÁVEIS
+========================================================= */
+
+:root {
+    --white: #ffffff;
+
+    --pink-light: #ffd8e9;
+    --pink: #df6b9d;
+    --pink-dark: #ad3c6d;
+
+    --wine: #68243f;
+    --wine-dark: #35111f;
+}
+
+
+/* =========================================================
+   HTML / BODY
+========================================================= */
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+body {
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: var(--white);
+
+    background: var(--wine-dark);
+}
+
+
+/* =========================================================
+   PÁGINA
+========================================================= */
+
+.register-page {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 40px 7%;
+
+    overflow: hidden;
+
+    background: var(--wine-dark);
+}
+
+
+/* =========================================================
+   FUNDO DESFOCADO
+
+   Usa a mesma imagem para preencher toda a tela.
+========================================================= */
+
+.background-blur {
+    position: absolute;
+
+    top: -50px;
+    right: -50px;
+    bottom: -50px;
+    left: -50px;
+
+    z-index: 0;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    transform: scale(1.10);
+
+    filter:
+        blur(30px)
+        brightness(0.72)
+        saturate(1.15);
+}
+
+
+/* Coloração por cima do fundo */
+
+.background-blur::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(90, 30, 58, 0.08) 0%,
+            rgba(90, 30, 58, 0.10) 45%,
+            rgba(45, 12, 29, 0.32) 100%
+        );
+}
+
+
+/* =========================================================
+   IMAGEM PRINCIPAL
+
+   Essa é a imagem vertical original.
+========================================================= */
+
+.background-main {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 4%;
+
+    width: 57%;
+
+    z-index: 1;
+
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    filter:
+        saturate(1.05)
+        contrast(1.02)
+        drop-shadow(
+            0 0 35px rgba(52, 13, 32, 0.30)
+        );
+}
+
+
+/* =========================================================
+   SOMBRA GRADUAL DO LADO DIREITO
+========================================================= */
+
+.register-page::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            transparent 42%,
+            rgba(44, 10, 27, 0.08) 58%,
+            rgba(44, 10, 27, 0.30) 100%
+        );
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.register-card {
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+    max-width: 430px;
+
+    padding: 42px 40px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(84, 37, 60, 0.58),
+            rgba(54, 17, 37, 0.74)
+        );
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 60px rgba(30, 6, 18, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.17);
+}
+
+
+/* Linha de brilho no topo */
+
+.register-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 10%;
+
+    width: 80%;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.55),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
+.register-header {
+    margin-bottom: 30px;
+}
+
+
+.register-subtitle {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #ffd2e4;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+
+.register-header h1 {
+    margin-bottom: 8px;
+
+    color: white;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+
+    text-shadow:
+        0 2px 12px rgba(40, 8, 24, 0.35);
+}
+
+
+.register-header p {
+    color: rgba(255, 255, 255, 0.78);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.register-form {
+    width: 100%;
+}
+
+
+/* =========================================================
+   GRUPOS
+========================================================= */
+
+.form-group {
+    width: 100%;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   TELEFONE
+========================================================= */
+
+.phone-group {
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+
+.country-code {
+    width: 105px;
+
+    flex-shrink: 0;
+}
+
+
+.phone-number {
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.form-group label,
+.phone-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    line-height: 1.3;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.form-group input,
+.phone-group input,
+.phone-group select {
+    width: 100%;
+
+    height: 46px;
+
+    padding: 0 14px;
+
+    outline: none;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.32);
+
+    border-radius: 11px;
+
+    background:
+        rgba(255, 255, 255, 0.14);
+
+    color: white;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* Placeholder */
+
+.form-group input::placeholder,
+.phone-group input::placeholder {
+    color:
+        rgba(255, 255, 255, 0.52);
+}
+
+
+/* Hover */
+
+.form-group input:hover,
+.phone-group input:hover,
+.phone-group select:hover {
+    background:
+        rgba(255, 255, 255, 0.19);
+
+    border-color:
+        rgba(255, 255, 255, 0.50);
+}
+
+
+/* Focus */
+
+.form-group input:focus,
+.phone-group input:focus,
+.phone-group select:focus {
+    background:
+        rgba(255, 255, 255, 0.23);
+
+    border-color: #f8b6d2;
+
+    box-shadow:
+        0 0 0 4px rgba(244, 147, 188, 0.16);
+}
+
+
+/* =========================================================
+   AUTOFILL DO CHROME
+========================================================= */
+
+.form-group input:-webkit-autofill,
+.phone-group input:-webkit-autofill {
+    -webkit-text-fill-color: #351423;
+
+    -webkit-box-shadow:
+        0 0 0 1000px #fff1f7 inset;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.phone-group select {
+    cursor: pointer;
+}
+
+
+.phone-group select option {
+    background: #63233f;
+
+    color: white;
+}
+
+
+/* =========================================================
+   BOTÃO
+========================================================= */
+
+.register-button {
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 8px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.20);
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #df6b9d,
+            #ad3c6d
+        );
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px rgba(62, 14, 37, 0.38);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+
+.register-button:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+        0 15px 35px rgba(62, 14, 37, 0.48);
+}
+
+
+.register-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   ERROS DO DJANGO
+========================================================= */
+
+.field-errors,
+.form-errors {
+    margin-top: 7px;
+
+    padding: 7px 10px;
+
+    border:
+        1px solid rgba(255, 180, 204, 0.25);
+
+    border-radius: 7px;
+
+    background:
+        rgba(103, 18, 49, 0.55);
+
+    color: #ffd8e6;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+.field-errors ul,
+.form-errors ul {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+
+/* =========================================================
+   NOTEBOOK
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .register-page {
+        padding: 35px 5%;
+    }
+
+
+    .background-main {
+        left: 1%;
+
+        width: 57%;
+    }
+
+
+    .register-card {
+        max-width: 410px;
+
+        padding: 38px 34px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .register-page {
+        justify-content: center;
+
+        padding: 30px 20px;
+    }
+
+
+    .background-main {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+
+        background-size: cover;
+        background-position: center;
+
+        opacity: 0.75;
+    }
+
+
+    .register-page::after {
+        background:
+            rgba(46, 12, 29, 0.32);
+    }
+
+
+    .register-card {
+        max-width: 430px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(72, 25, 48, 0.70),
+                rgba(54, 17, 37, 0.82)
+            );
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 500px) {
+
+    .register-page {
+        padding: 15px;
+    }
+
+
+    .register-card {
+        padding: 30px 22px;
+
+        border-radius: 20px;
+    }
+
+
+    .register-header {
+        margin-bottom: 25px;
+    }
+
+
+    .register-header h1 {
+        font-size: 27px;
+    }
+
+
+    .phone-group {
+        gap: 8px;
+    }
+
+
+    .country-code {
+        width: 90px;
+    }
+
+
+    .form-group input,
+    .phone-group input,
+    .phone-group select {
+        height: 44px;
+    }
+
+
+    .register-button {
+        height: 46px;
+    }
+
+}
