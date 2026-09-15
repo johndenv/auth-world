@@ -1,6 +1,5 @@
 # Projeto de página de login universal para usar em qualquer projeto
 
-
 Register 
 - banco de dados de usuario
 id (UUID)
