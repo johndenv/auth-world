@@ -3,11 +3,21 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 import re
 
-User = get_user_model
+User = get_user_model()
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirm password!")
+
+    country_code = forms.CharField(
+        label="Country Code (DDI)", 
+        initial="55", 
+        widget=forms.TextInput(attrs={'placeholder': 'Ex: 55', 'style': 'width: 70px;'})
+    )
+    phone_with_ddd = forms.CharField(
+        label="Phone with DDD", 
+        widget=forms.TextInput(attrs={'placeholder': 'Ex: 31997623668'})
+    )
 
     class Meta:
         model = User
@@ -41,7 +51,7 @@ class UserForm(forms.ModelForm):
             # Salva o valor final formatado no dicionário para ser usado no save()
             cleaned_data["phone"] = phone_final
         else:
-            raise ValidationError({"phone_com_ddd": "The phone number is mandatory"})
+            raise ValidationError({"phone_with_ddd": "The phone number is mandatory"})
 
         return cleaned_data
 
@@ -57,5 +67,5 @@ class UserForm(forms.ModelForm):
 class UserAdminChangeForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('email', 'nome', 'phone', 'is_active', 'is_staff')
+        fields = ('email', 'phone', 'is_active', 'is_staff')
 
