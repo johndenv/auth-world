@@ -1,22 +1,14 @@
 # Projeto de página de login universal para usar em qualquer projeto
 
-## Estrutura de apps
 
-### core - Funções ultilitarias 
+Register 
+- banco de dados de usuario
+id (UUID)
+email
+senha
+last_login
+is_superuser
+is_staff
+is_active
 
-### auth  - Paginas principais
-- Register []
-- Login []
-- Reset password []
-- logout []
-- refresh token []
-- Password Reset []
-- Email Verification []
-- RBAC []
-- Permissions []
-- Sessions []
-- Token Revocation []
-- Rate Limiting []
-- 2FA []
-- Auth Logs []
  
