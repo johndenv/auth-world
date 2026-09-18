@@ -56,7 +56,7 @@ body {
    PÁGINA
 ========================================================= */
 
-.register-page {
+.login-page {
     position: relative;
 
     width: 100%;
@@ -157,7 +157,7 @@ body {
    SOMBRA GRADUAL DO LADO DIREITO
 ========================================================= */
 
-.register-page::after {
+.login-page::after {
     content: "";
 
     position: absolute;
@@ -183,7 +183,7 @@ body {
    CARD
 ========================================================= */
 
-.register-card {
+.login-card {
     position: relative;
 
     z-index: 10;
@@ -216,7 +216,7 @@ body {
 
 /* Linha de brilho no topo */
 
-.register-card::before {
+.login-card::before {
     content: "";
 
     position: absolute;
@@ -241,12 +241,12 @@ body {
    CABEÇALHO
 ========================================================= */
 
-.register-header {
+.login-header {
     margin-bottom: 30px;
 }
 
 
-.register-subtitle {
+.login-subtitle {
     display: block;
 
     margin-bottom: 8px;
@@ -260,7 +260,7 @@ body {
 }
 
 
-.register-header h1 {
+.login-header h1 {
     margin-bottom: 8px;
 
     color: white;
@@ -275,7 +275,7 @@ body {
 }
 
 
-.register-header p {
+.login-header p {
     color: rgba(255, 255, 255, 0.78);
 
     font-size: 14px;
@@ -288,7 +288,7 @@ body {
    FORMULÁRIO
 ========================================================= */
 
-.register-form {
+.login-form {
     width: 100%;
 }
 
@@ -305,41 +305,10 @@ body {
 
 
 /* =========================================================
-   TELEFONE
-========================================================= */
-
-.phone-group {
-    width: 100%;
-
-    display: flex;
-    align-items: flex-start;
-
-    gap: 12px;
-
-    margin-bottom: 18px;
-}
-
-
-.country-code {
-    width: 105px;
-
-    flex-shrink: 0;
-}
-
-
-.phone-number {
-    flex: 1;
-
-    min-width: 0;
-}
-
-
-/* =========================================================
    LABELS
 ========================================================= */
 
-.form-group label,
-.phone-group label {
+.form-group label {
     display: block;
 
     margin-bottom: 7px;
@@ -357,9 +326,7 @@ body {
    INPUTS
 ========================================================= */
 
-.form-group input,
-.phone-group input,
-.phone-group select {
+.form-group input {
     width: 100%;
 
     height: 46px;
@@ -390,8 +357,7 @@ body {
 
 /* Placeholder */
 
-.form-group input::placeholder,
-.phone-group input::placeholder {
+.form-group input::placeholder {
     color:
         rgba(255, 255, 255, 0.52);
 }
@@ -399,9 +365,7 @@ body {
 
 /* Hover */
 
-.form-group input:hover,
-.phone-group input:hover,
-.phone-group select:hover {
+.form-group input:hover {
     background:
         rgba(255, 255, 255, 0.19);
 
@@ -412,9 +376,7 @@ body {
 
 /* Focus */
 
-.form-group input:focus,
-.phone-group input:focus,
-.phone-group select:focus {
+.form-group input:focus {
     background:
         rgba(255, 255, 255, 0.23);
 
@@ -429,8 +391,7 @@ body {
    AUTOFILL DO CHROME
 ========================================================= */
 
-.form-group input:-webkit-autofill,
-.phone-group input:-webkit-autofill {
+.form-group input:-webkit-autofill {
     -webkit-text-fill-color: #351423;
 
     -webkit-box-shadow:
@@ -439,26 +400,10 @@ body {
 
 
 /* =========================================================
-   SELECT
-========================================================= */
-
-.phone-group select {
-    cursor: pointer;
-}
-
-
-.phone-group select option {
-    background: #63233f;
-
-    color: white;
-}
-
-
-/* =========================================================
    BOTÃO
 ========================================================= */
 
-.register-button {
+.login-button {
     width: 100%;
 
     height: 48px;
@@ -498,7 +443,7 @@ body {
 }
 
 
-.register-button:hover {
+.login-button:hover {
     transform: translateY(-2px);
 
     filter: brightness(1.08);
@@ -508,7 +453,7 @@ body {
 }
 
 
-.register-button:active {
+.login-button:active {
     transform: translateY(0);
 }
 
@@ -580,7 +525,7 @@ body {
 
 @media (max-width: 1100px) {
 
-    .register-page {
+    .login-page {
         padding: 35px 5%;
     }
 
@@ -592,7 +537,7 @@ body {
     }
 
 
-    .register-card {
+    .login-card {
         max-width: 410px;
 
         padding: 38px 34px;
@@ -607,7 +552,7 @@ body {
 
 @media (max-width: 850px) {
 
-    .register-page {
+    .login-page {
         justify-content: center;
 
         padding: 30px 20px;
@@ -629,13 +574,13 @@ body {
     }
 
 
-    .register-page::after {
+    .login-page::after {
         background:
             rgba(46, 12, 29, 0.32);
     }
 
 
-    .register-card {
+    .login-card {
         max-width: 430px;
 
         background:
@@ -655,46 +600,34 @@ body {
 
 @media (max-width: 500px) {
 
-    .register-page {
+    .login-page {
         padding: 15px;
     }
 
 
-    .register-card {
+    .login-card {
         padding: 30px 22px;
 
         border-radius: 20px;
     }
 
 
-    .register-header {
+    .login-header {
         margin-bottom: 25px;
     }
 
 
-    .register-header h1 {
+    .login-header h1 {
         font-size: 27px;
     }
 
 
-    .phone-group {
-        gap: 8px;
-    }
-
-
-    .country-code {
-        width: 90px;
-    }
-
-
-    .form-group input,
-    .phone-group input,
-    .phone-group select {
+    .form-group input {
         height: 44px;
     }
 
 
-    .register-button {
+    .login-button {
         height: 46px;
     }
 

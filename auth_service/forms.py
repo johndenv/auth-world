@@ -69,3 +69,16 @@ class UserAdminChangeForm(forms.ModelForm):
         model = User
         fields = ('email', 'phone', 'is_active', 'is_staff')
 
+class VerificationCode(forms.Form):
+    cod = forms.CharField(
+        max_length=6,
+        min_length=6,
+        widget=forms.TextInput(attrs={'placeholder': '123456'}),
+        label="Verification code"
+    )
+
+    def clean_cod(self):
+        cod = self.cleaned_data.get("cod", "").strip()
+        if not cod.isdigit():
+            raise forms.ValidationError("O código deve conter apenas números.")
+        return cod

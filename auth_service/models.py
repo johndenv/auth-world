@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
 
     # Define o email como o campo de login único
     USERNAME_FIELD = 'email'

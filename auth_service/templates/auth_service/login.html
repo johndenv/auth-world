@@ -1,0 +1,119 @@
+{% load static %}
+{% static "auth_service/images/espada.jpg" as espada_url %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Entrar</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'auth_service/css/login.css' %}"
+    >
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <div
+            class="background-blur"
+            style="background-image: url('{{ espada_url }}');"
+        ></div>
+
+        <div
+            class="background-main"
+            style="background-image: url('{{ espada_url }}');"
+        ></div>
+
+        <section class="login-card">
+
+            <header class="login-header">
+
+                <span class="login-subtitle">
+                    BEM-VINDO DE VOLTA
+                </span>
+
+                <h1>Entrar</h1>
+
+                <p>
+                    Acesse sua conta para continuar.
+                </p>
+
+            </header>
+
+            <form method="post" class="login-form">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+                <div class="form-group">
+
+                    {{ form.username.label_tag }}
+
+                    {{ form.username }}
+
+                    {% if form.username.errors %}
+
+                        <div class="field-errors">
+                            {{ form.username.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="form-group">
+
+                    {{ form.password.label_tag }}
+
+                    {{ form.password }}
+
+                    {% if form.password.errors %}
+
+                        <div class="field-errors">
+                            {{ form.password.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    Entrar
+                </button>
+
+            </form>
+
+            <p class="form-footer">
+                Não tem uma conta?
+                <a href="{% url 'auth_service:register-user' %}">
+                    Criar conta
+                </a>
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

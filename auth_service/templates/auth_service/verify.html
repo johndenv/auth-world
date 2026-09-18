@@ -1,0 +1,96 @@
+{% load static %}
+{% static "auth_service/images/espada.jpg" as espada_url %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Verificar conta</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'auth_service/css/register.css' %}"
+    >
+</head>
+
+<body>
+
+    <main class="register-page">
+
+        <div
+            class="background-blur"
+            style="background-image: url('{{ espada_url }}');"
+        ></div>
+
+        <div
+            class="background-main"
+            style="background-image: url('{{ espada_url }}');"
+        ></div>
+
+        <section class="register-card">
+
+            <header class="register-header">
+
+                <span class="register-subtitle">
+                    VERIFICAÇÃO
+                </span>
+
+                <h1>Confirmar conta</h1>
+
+                <p>
+                    Digite o código de 6 dígitos enviado para o seu email.
+                </p>
+
+            </header>
+
+            <form method="post" class="register-form">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+                <div class="form-group">
+
+                    {{ form.cod.label_tag }}
+
+                    {{ form.cod }}
+
+                    {% if form.cod.errors %}
+
+                        <div class="field-errors">
+                            {{ form.cod.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="register-button"
+                >
+                    Verificar
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
