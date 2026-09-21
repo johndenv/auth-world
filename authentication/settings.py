@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'anymail',
     'core',
     'auth_service',
+    'audit_logs',
 ]
 
 MIDDLEWARE = [

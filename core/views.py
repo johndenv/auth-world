@@ -6,6 +6,9 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+from audit_logs.models import AuditLog
+from audit_logs.services import record_audit
+
 from .forms import RecordForm, RecordStatusForm
 from .models import Record
 
@@ -48,6 +51,13 @@ class CreateRecordView(LoginRequiredMixin, CreateView):
         form.instance.owner = _get_owner(self.request.user)
         form.instance.created_by = self.request.user
         self.object = form.save()
+        record_audit(
+            self.request,
+            action=AuditLog.Action.RECORD_CREATED,
+            actor=self.request.user.email,
+            user=self.request.user,
+            reason=f"Registro '{self.object.name}' criado.",
+        )
         return redirect(self.get_success_url())
 
 
@@ -67,6 +77,16 @@ class UpdateRecordStatusView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 
     def form_valid(self, form):
         self.object = form.save()
+        record_audit(
+            self.request,
+            action=AuditLog.Action.RECORD_STATUS_CHANGED,
+            actor=self.request.user.email,
+            user=self.request.user,
+            reason=(
+                f"Status de '{self.object.name}' alterado para "
+                f"{self.object.get_status_display()}."
+            ),
+        )
         return redirect(self.get_success_url())
 
 
@@ -82,3 +102,13 @@ class DeleteRecordView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_queryset(self):
         return Record.objects.filter(owner=_get_owner(self.request.user))
+
+    def form_valid(self, form):
+        record_audit(
+            self.request,
+            action=AuditLog.Action.RECORD_DELETED,
+            actor=self.request.user.email,
+            user=self.request.user,
+            reason=f"Registro '{self.object.name}' excluído.",
+        )
+        return super().form_valid(form)

@@ -3,12 +3,14 @@ import time
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.core.cache import cache
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, FormView
 
+from audit_logs.models import AuditLog
+from audit_logs.services import record_audit
 from core.email import send_security_alert_email, send_verification_email
 from .forms import LoginForm, SubUserForm, UserForm, VerificationCode
 
@@ -53,6 +55,21 @@ def _format_duration(seconds):
     if seconds >= BLOCK_5_MINUTES:
         return "5 minutos"
     return "1 minuto"
+
+
+class AuditLogoutView(LogoutView):
+    """Logout que registra a saída no log de auditoria antes de encerrar a sessão."""
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            record_audit(
+                request,
+                action=AuditLog.Action.LOGOUT,
+                actor=request.user.email,
+                user=request.user,
+                reason="Logout concluído.",
+            )
+        return super().dispatch(request, *args, **kwargs)
 
 
 class RateLimitedLoginView(LoginView):
@@ -128,6 +145,12 @@ class RateLimitedLoginView(LoginView):
 
         if email and self.is_blocked(email):
             remaining = max(int(self.get_block_until(email) - time.time()), 0)
+            record_audit(
+                request,
+                action=AuditLog.Action.LOGIN_BLOCKED,
+                actor=email,
+                reason="Tentativa bloqueada por limite de tentativas (rate limit).",
+            )
             form.add_error(
                 None,
                 f"Conta bloqueada temporariamente. Tente novamente em "
@@ -139,7 +162,17 @@ class RateLimitedLoginView(LoginView):
 
     def form_invalid(self, form):
         email = _login_email(self.request)
+        # AÇÃO/ATOR: apenas o e-mail informado é sanitizado e gravado.
+        # REGRA DE SEGURANÇA: a senha (mesmo que digitada por engano no
+        # campo de usuário) nunca chega ao log — o valor que não parece
+        # e-mail é descartado por record_audit.
         if email:
+            record_audit(
+                self.request,
+                action=AuditLog.Action.LOGIN_FAILED,
+                actor=email,
+                reason="Senha incorreta ou conta inativa.",
+            )
             duration = self.register_failed_attempt(email)
             if duration:
                 form.add_error(
@@ -150,7 +183,15 @@ class RateLimitedLoginView(LoginView):
         return super().form_invalid(form)
 
     def form_valid(self, form):
-        self.reset(_login_email(self.request))
+        email = _login_email(self.request)
+        self.reset(email)
+        record_audit(
+            self.request,
+            action=AuditLog.Action.LOGIN_SUCCESS,
+            actor=email,
+            user=form.get_user(),
+            reason="Login bem-sucedido.",
+        )
         return super().form_valid(form)
 
 
@@ -182,6 +223,14 @@ class RegisterUser(CreateView):
         # Guarda o email na sessão para a tela de verificação
         self.request.session['pending_email'] = user.email
 
+        record_audit(
+            self.request,
+            action=AuditLog.Action.REGISTER,
+            actor=user.email,
+            user=user,
+            reason="Nova conta criada (aguardando verificação de e-mail).",
+        )
+
         return redirect(reverse_lazy('auth_service:verify-user'))
 
 
@@ -211,6 +260,14 @@ class VerifyCodeView(FormView):
         # Limpa o código do cache e a sessão
         cache.delete(f"{CACHE_PREFIX}{email}")
         self.request.session.pop('pending_email', None)
+
+        record_audit(
+            self.request,
+            action=AuditLog.Action.ACCOUNT_ACTIVATED,
+            actor=email,
+            user=user,
+            reason="E-mail verificado com o código de 6 dígitos.",
+        )
 
         return super().form_valid(form)
 
@@ -243,4 +300,12 @@ class HomeView(LoginRequiredMixin, UserPassesTestMixin, FormView):
         if user.role == User.Roles.ADMIN:
             user.role = User.Roles.NOOB
         user.save()
+
+        record_audit(
+            self.request,
+            action=AuditLog.Action.SUBUSER_CREATED,
+            actor=user.email,
+            user=user,
+            reason=f"Usuário criado na dashboard por {self.request.user.email}.",
+        )
         return super().form_valid(form)
