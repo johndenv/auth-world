@@ -98,10 +98,10 @@ pip install Django==6.1.1 psycopg==3.3.6 django-anymail==15.2 python-dotenv==1.2
 Conecte no seu PostgreSQL e crie (ou use) um banco. O projeto vem apontando para:
 
 ```
-postgresql://postgres:John19$$@localhost:5432/postgres
+postgresql://USER:PASSWORD@localhost:5432/postgres
 ```
 
-### 3. Configurar o `.env`
+### 3. Configurar o `.env*`
 
 Copie/ajuste estas variáveis (existe um `.env` no projeto):
 
