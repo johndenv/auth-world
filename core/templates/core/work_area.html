@@ -1,0 +1,254 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Área de trabalho</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'core/css/work_area.css' %}"
+    >
+</head>
+
+<body>
+
+    <main class="work-page">
+
+        <nav class="topbar">
+            <span class="topbar-title">Área de trabalho</span>
+            <div class="topbar-actions">
+                {% if can_manage_users %}
+                    <a class="topbar-link" href="{% url 'auth_service:home' %}">
+                        Registrar usuários
+                    </a>
+                {% endif %}
+                <form method="post" action="{% url 'auth_service:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="topbar-button">Sair</button>
+                </form>
+            </div>
+        </nav>
+
+        <div class="work-content">
+
+            <header class="work-header">
+
+                <span class="work-subtitle">
+                    BEM-VINDO
+                </span>
+
+                <h1>Área de trabalho</h1>
+
+                <p>
+                    Olá, {{ user.email }}.
+                    {% if user.can_manage_users %}Você é o administrador da conta.{% else %}
+                        Seu cargo é <strong>{{ user.get_role_display }}</strong>.
+                    {% endif %}
+                </p>
+
+            </header>
+
+            <div class="actions-grid">
+
+                <!-- AÇÃO 1: REGISTRO -->
+                <section class="action-card">
+
+                    <span class="action-tag">Ação 1</span>
+
+                    <h2>Registro</h2>
+
+                    <p>Cadastre um novo nome na lista.</p>
+
+                    <form method="post" action="{% url 'core:record-create' %}" class="action-form">
+
+                        {% csrf_token %}
+
+                        {{ record_form.name }}
+
+                        {% if record_form.name.errors %}
+
+                            <div class="field-errors">
+                                {{ record_form.name.errors }}
+                            </div>
+
+                        {% endif %}
+
+                        <button type="submit" class="action-button">
+                            Registrar
+                        </button>
+
+                    </form>
+
+                </section>
+
+                <!-- AÇÃO 2: ESTADO -->
+                <section class="action-card">
+
+                    <span class="action-tag">Ação 2</span>
+
+                    <h2>Estado</h2>
+
+                    <p>
+                        Altere o status de um registro para
+                        <em>pendente</em>, <em>bloqueado</em> ou <em>ativo</em>.
+                    </p>
+
+                    {% if can_change_state %}
+
+                        <p class="lock-hint">Disponível para você.</p>
+
+                    {% else %}
+
+                        <p class="lock-hint blocked">
+                            Cargo noob não pode alterar estados.
+                        </p>
+
+                    {% endif %}
+
+                </section>
+
+                <!-- AÇÃO 3: EXCLUSÃO -->
+                <section class="action-card">
+
+                    <span class="action-tag">Ação 3</span>
+
+                    <h2>Exclusão</h2>
+
+                    <p>Exclua cadastros da lista permanentemente.</p>
+
+                    {% if can_delete_records %}
+
+                        <p class="lock-hint">Disponível para você.</p>
+
+                    {% else %}
+
+                        <p class="lock-hint blocked">
+                            Cargo noob/pro não pode excluir registros.
+                        </p>
+
+                    {% endif %}
+
+                </section>
+
+            </div>
+
+            <section class="records-card">
+
+                <h2 class="records-title">Registros</h2>
+
+                <div class="table-wrap">
+
+                    <table class="records-table">
+
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Status</th>
+                                <th>Criado por</th>
+                                <th>Data</th>
+                                <th class="col-actions">Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for record in records %}
+
+                                <tr>
+                                    <td>{{ record.name }}</td>
+
+                                    <td>
+                                        <span class="status-badge status-{{ record.status }}">
+                                            {{ record.get_status_display }}
+                                        </span>
+                                    </td>
+
+                                    <td>{{ record.created_by.email|default:"—" }}</td>
+
+                                    <td>{{ record.created_at|date:"d/m/Y H:i" }}</td>
+
+                                    <td class="col-actions">
+
+                                        <div class="row-actions">
+
+                                            {% if can_change_state %}
+
+                                                <form
+                                                    method="post"
+                                                    action="{% url 'core:record-status' record.pk %}"
+                                                    class="status-form"
+                                                >
+                                                    {% csrf_token %}
+
+                                                    <select name="status" class="status-select">
+                                                        {% for value, label in status_form.fields.status.choices %}
+                                                            <option
+                                                                value="{{ value }}"
+                                                                {% if record.status == value %}selected{% endif %}
+                                                            >
+                                                                {{ label }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+
+                                                    <button type="submit" class="mini-button">
+                                                        Estado
+                                                    </button>
+                                                </form>
+
+                                            {% endif %}
+
+                                            {% if can_delete_records %}
+
+                                                <form
+                                                    method="post"
+                                                    action="{% url 'core:record-delete' record.pk %}"
+                                                    onsubmit="return confirm('Excluir o registro &quot;{{ record.name|escapejs }}&quot;?');"
+                                                >
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="mini-button danger">
+                                                        Excluir
+                                                    </button>
+                                                </form>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+                                    <td colspan="5" class="table-empty">
+                                        Nenhum registro ainda. Use a ação "Registro" para começar.
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

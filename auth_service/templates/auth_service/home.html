@@ -11,58 +11,191 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Bem-vindo(a)</title>
+    <title>Cadastro de usuários</title>
 
     <link
         rel="stylesheet"
-        href="{% static 'auth_service/css/home.css' %}"
+        href="{% static 'auth_service/css/dashboard.css' %}"
     >
 </head>
 
 <body>
 
-    <main class="home-page">
+    <main class="dashboard-page">
 
-        <div class="home-glow"></div>
-
-        <section class="home-card">
-
-            <div class="home-image-wrapper">
-
-                <img
-                    src="{% static 'auth_service/images/espada.jpg' %}"
-                    alt="Espada"
-                    class="home-image"
-                >
-
+        <nav class="topbar">
+            <span class="topbar-title">Painel do administrador</span>
+            <div class="topbar-actions">
+                <a class="topbar-link" href="{% url 'core:work-area' %}">
+                    Área de trabalho
+                </a>
+                <form method="post" action="{% url 'auth_service:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="topbar-button">Sair</button>
+                </form>
             </div>
+        </nav>
 
-            <header class="home-header">
+        <section class="dashboard-card">
 
-                <span class="home-subtitle">
-                    LOGIN REALIZADO
+            <header class="dashboard-header">
+
+                <span class="dashboard-subtitle">
+                    GERENCIAMENTO DE ACESSO
                 </span>
 
-                <h1>Bem-vindo(a)!</h1>
+                <h1>Cadastro de usuários</h1>
 
                 <p>
-                    Você acessou sua conta com sucesso.
+                    Apenas o criador da conta pode criar e gerenciar novos usuários.
                 </p>
 
             </header>
 
-            <form method="post" action="{% url 'auth_service:logout' %}">
+            <form method="post" class="dashboard-form" novalidate>
 
                 {% csrf_token %}
 
+                {% if form.non_field_errors %}
+
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+
+                {% endif %}
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        {{ form.email.label_tag }}
+
+                        {{ form.email }}
+
+                        {% if form.email.errors %}
+
+                            <div class="field-errors">
+                                {{ form.email.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="form-group">
+
+                        {{ form.phone.label_tag }}
+
+                        {{ form.phone }}
+
+                        {% if form.phone.errors %}
+
+                            <div class="field-errors">
+                                {{ form.phone.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        {{ form.role.label_tag }}
+
+                        {{ form.role }}
+
+                        {% if form.role.errors %}
+
+                            <div class="field-errors">
+                                {{ form.role.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="form-group">
+
+                        {{ form.password.label_tag }}
+
+                        {{ form.password }}
+
+                        {% if form.password.errors %}
+
+                            <div class="field-errors">
+                                {{ form.password.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
                 <button
                     type="submit"
-                    class="logout-button"
+                    class="dashboard-button"
                 >
-                    Sair da conta
+                    Criar usuário
                 </button>
 
             </form>
+
+            <h2 class="members-title">Usuários cadastrados</h2>
+
+            <div class="table-wrap">
+
+                <table class="members-table">
+
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Cargo</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for member in members %}
+
+                            <tr>
+                                <td>{{ member.email }}</td>
+                                <td>{{ member.phone|default:"—" }}</td>
+                                <td>
+                                    <span class="role-badge role-{{ member.role }}">
+                                        {{ member.get_role_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if member.is_active %}
+                                        <span class="status-badge status-ativo">Ativo</span>
+                                    {% else %}
+                                        <span class="status-badge status-bloqueado">Inativo</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+                                <td colspan="4" class="table-empty">
+                                    Nenhum usuário criado ainda.
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </section>
 
