@@ -1,0 +1,363 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   VARIÁVEIS
+========================================================= */
+
+:root {
+    --white: #ffffff;
+
+    --pink-light: #ffd8e9;
+    --pink: #df6b9d;
+    --pink-dark: #ad3c6d;
+
+    --wine: #68243f;
+    --wine-dark: #35111f;
+}
+
+
+/* =========================================================
+   HTML / BODY
+========================================================= */
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+body {
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: var(--white);
+
+    background: var(--wine-dark);
+}
+
+
+/* =========================================================
+   PÁGINA
+========================================================= */
+
+.home-page {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 20px;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #68243f 0%,
+            #35111f 75%
+        );
+}
+
+
+/* Brilho suave atrás da imagem */
+
+.home-glow {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 640px;
+    height: 640px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(223, 107, 157, 0.22) 0%,
+            transparent 70%
+        );
+
+    filter: blur(8px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.home-card {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    max-width: 460px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 46px 40px 40px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(84, 37, 60, 0.72),
+            rgba(54, 17, 37, 0.85)
+        );
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 26px;
+
+    box-shadow:
+        0 25px 60px rgba(30, 6, 18, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.17);
+}
+
+
+/* Linha de brilho no topo */
+
+.home-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 10%;
+
+    width: 80%;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.55),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   IMAGEM
+========================================================= */
+
+.home-image-wrapper {
+    width: 220px;
+    height: 260px;
+
+    margin: -80px auto 26px;
+
+    overflow: hidden;
+
+    border:
+        3px solid rgba(255, 255, 255, 0.30);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 18px 44px rgba(18, 4, 12, 0.60),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+
+    transform: rotate(2deg);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.home-image-wrapper:hover {
+    transform: rotate(0deg) scale(1.02);
+
+    box-shadow:
+        0 22px 54px rgba(18, 4, 12, 0.70),
+        0 0 0 4px rgba(244, 147, 188, 0.25);
+}
+
+
+.home-image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    filter:
+        saturate(1.05)
+        contrast(1.02);
+}
+
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
+.home-header {
+    margin-bottom: 26px;
+
+    text-align: center;
+}
+
+
+.home-subtitle {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--pink-light);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+
+.home-header h1 {
+    margin-bottom: 8px;
+
+    color: white;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+
+    text-shadow:
+        0 2px 12px rgba(40, 8, 24, 0.35);
+}
+
+
+.home-header p {
+    color: rgba(255, 255, 255, 0.78);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   BOTÃO
+========================================================= */
+
+.logout-button {
+    width: 100%;
+
+    height: 48px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.20);
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #df6b9d,
+            #ad3c6d
+        );
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px rgba(62, 14, 37, 0.38);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+
+.logout-button:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+        0 15px 35px rgba(62, 14, 37, 0.48);
+}
+
+
+.logout-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 500px) {
+
+    .home-page {
+        padding: 15px;
+    }
+
+
+    .home-card {
+        padding: 40px 22px 30px;
+    }
+
+
+    .home-image-wrapper {
+        width: 180px;
+        height: 220px;
+
+        margin-top: -70px;
+    }
+
+
+    .home-header h1 {
+        font-size: 25px;
+    }
+
+
+    .logout-button {
+        height: 46px;
+    }
+
+}

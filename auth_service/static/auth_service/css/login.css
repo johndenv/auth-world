@@ -64,9 +64,9 @@ body {
 
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 
-    padding: 40px 7%;
+    padding: 30px 20px;
 
     overflow: hidden;
 
@@ -123,38 +123,9 @@ body {
 
 
 /* =========================================================
-   IMAGEM PRINCIPAL
+   VINHETA CENTRALIZADA
 
-   Essa é a imagem vertical original.
-========================================================= */
-
-.background-main {
-    position: absolute;
-
-    top: 0;
-    bottom: 0;
-
-    left: 4%;
-
-    width: 57%;
-
-    z-index: 1;
-
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    filter:
-        saturate(1.05)
-        contrast(1.02)
-        drop-shadow(
-            0 0 35px rgba(52, 13, 32, 0.30)
-        );
-}
-
-
-/* =========================================================
-   SOMBRA GRADUAL DO LADO DIREITO
+   Escurece as bordas para destacar o card central.
 ========================================================= */
 
 .login-page::after {
@@ -169,12 +140,10 @@ body {
     pointer-events: none;
 
     background:
-        linear-gradient(
-            90deg,
-            transparent 0%,
-            transparent 42%,
-            rgba(44, 10, 27, 0.08) 58%,
-            rgba(44, 10, 27, 0.30) 100%
+        radial-gradient(
+            ellipse at center,
+            transparent 45%,
+            rgba(35, 8, 22, 0.55) 100%
         );
 }
 
@@ -526,14 +495,7 @@ body {
 @media (max-width: 1100px) {
 
     .login-page {
-        padding: 35px 5%;
-    }
-
-
-    .background-main {
-        left: 1%;
-
-        width: 57%;
+        padding: 30px 20px;
     }
 
 
@@ -556,21 +518,6 @@ body {
         justify-content: center;
 
         padding: 30px 20px;
-    }
-
-
-    .background-main {
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-
-        width: 100%;
-
-        background-size: cover;
-        background-position: center;
-
-        opacity: 0.75;
     }
 
 

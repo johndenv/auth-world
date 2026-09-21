@@ -160,7 +160,7 @@ ANYMAIL = {
 # Auth URLs
 
 LOGIN_URL = 'auth_service:login-user'
-LOGIN_REDIRECT_URL = 'auth_service:register-user'
+LOGIN_REDIRECT_URL = 'auth_service:home'
 LOGOUT_REDIRECT_URL = 'auth_service:login-user'
 
 

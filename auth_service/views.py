@@ -1,9 +1,11 @@
 import random
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
 from core.email import send_verification_email
@@ -69,3 +71,9 @@ class VerifyCodeView(FormView):
         self.request.session.pop('pending_email', None)
 
         return super().form_valid(form)
+
+
+class HomeView(LoginRequiredMixin, TemplateView):
+    """Tela de sucesso após o login."""
+
+    template_name = 'auth_service/home.html'

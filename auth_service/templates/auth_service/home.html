@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bem-vindo(a)</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'auth_service/css/home.css' %}"
+    >
+</head>
+
+<body>
+
+    <main class="home-page">
+
+        <div class="home-glow"></div>
+
+        <section class="home-card">
+
+            <div class="home-image-wrapper">
+
+                <img
+                    src="{% static 'auth_service/images/espada.jpg' %}"
+                    alt="Espada"
+                    class="home-image"
+                >
+
+            </div>
+
+            <header class="home-header">
+
+                <span class="home-subtitle">
+                    LOGIN REALIZADO
+                </span>
+
+                <h1>Bem-vindo(a)!</h1>
+
+                <p>
+                    Você acessou sua conta com sucesso.
+                </p>
+
+            </header>
+
+            <form method="post" action="{% url 'auth_service:logout' %}">
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="logout-button"
+                >
+                    Sair da conta
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
